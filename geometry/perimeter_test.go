@@ -18,24 +18,24 @@ func TestPerimeter(t *testing.T) {
 }
 
 func TestArea(t *testing.T) {
-	var width float64 = 10
-	var height float64 = 10
-	var radius float64 = 5
-	var rectangle = Rectangle{width, height}
-	var circle = Circle{radius}
-	t.Run("Test Area for Rectangle", func(t *testing.T) {
-		want := rectangle.Area()
-		var got float64 = 100
-		if got != want {
-			t.Errorf("For width = %.2f and height = %.2f, area should be %.2f, but got %.2f", width, height, want, got)
-		}
-	})
-	t.Run("Test Area for Circle", func(t *testing.T) {
-		want := circle.Area()
-		var got float64 = math.Pi * (radius * radius)
-		if got != want {
-			t.Errorf("For width = %.2f and height = %.2f, area should be %.2f, but got %.2f", width, height, want, got)
-		}
-	})
+
+	cases := []struct {
+		name  string
+		shape Shape
+		want  float64
+	}{
+		{name: "Rectangle", shape: Rectangle{Width: 10, Height: 10}, want: 100},
+		{name: "Circle", shape: Circle{Radius: 5}, want: math.Pi * (5 * 5)},
+		{name: "Triangle", shape: Triangle{Base: 15, Height: 4}, want: 0.5 * 5 * 4},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			got := c.shape.Area()
+			if got != c.want {
+				t.Errorf("Shape: %#v - Calculated Area: %g, Actual Area %g", c.shape, got, c.want)
+			}
+		})
+
+	}
 
 }
